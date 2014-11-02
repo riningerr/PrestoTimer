@@ -235,10 +235,14 @@ public class PrestoApp extends JFrame {
 		clear.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Clear Stopwatch
 				if(mode == "StopWatch") {
-					TimerMemory.clearStop();							// Clear Stopwatch
+					if(TimerMemory.stopOn != true) {					
+					TimerMemory.clearStop();
+					}
 				}
-				else if(mode == "Timer") {								// Clear Timer
+				// Clear Timer
+				else if(mode == "Timer") {			
 					if(setPlace == 0) {
 						TimerMemory.clearTimer(timerMode);
 					}
