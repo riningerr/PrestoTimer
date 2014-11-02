@@ -5,6 +5,17 @@ import java.awt.event.*;
 
 import javax.swing.Timer;
 
+/* TO DO LIST
+ * 
+ * START/STOP & CLEAR shouldn't work if SET is active
+ * SET shouldn't work on STOPWATCH
+ * Fix SET blinking inconsistency
+ * Get CLOCK to update every second
+ * 
+ * 
+ */
+
+
 public class PrestoApp extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -17,30 +28,39 @@ public class PrestoApp extends JFrame {
 	public PrestoApp() {
 
 		setTitle("Presto Timer");
-		setSize(450, 250);
+		setSize(430, 250);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
+		
+		//////////////////////////////////////		DANGER TEST CODE
+		
+		
+		
+		
+		
+		
+		//////////////////////////////////////
+		
 	}
 
 	public static void main(String[] args) {
 
+		@SuppressWarnings("unused")
 		final TimerMemory timerC = new TimerMemory();
+		final Clock clk = new Clock();
 
 		// Create new frame
 		PrestoApp window = new PrestoApp();
 
 		// Create panels for display and buttons
 		JPanel display = new JPanel(new BorderLayout());
-		JPanel displayR = new JPanel(new GridLayout(3,1));
-		displayR.setPreferredSize(new Dimension(130,100));
 		JPanel buttons = new JPanel(new GridLayout(2, 4));
 		
 
 		// Add panels to container
 		Container pane = window.getContentPane();
 		pane.add(display, BorderLayout.CENTER);
-		pane.add(displayR, BorderLayout.EAST);
 		pane.add(buttons, BorderLayout.SOUTH);
 		
 		
@@ -71,19 +91,13 @@ public class PrestoApp extends JFrame {
 		Font hourMin = new Font("DS-Digital", Font.ITALIC, 100);	// Font for hh:mm:ss display
 		final JLabel disp = new JLabel();
 		disp.setFont(hourMin);
-		disp.setPreferredSize(new Dimension(370,100));
-		display.add(disp, BorderLayout.LINE_START);
+		display.add(disp);
 		
-		Font date = new Font("DS-Digital", Font.ITALIC, 24);
-		final JLabel topLine = new JLabel("MM  DD  YY");					// Font for date
+		Font date = new Font("DS-Digital", Font.ITALIC, 32);
+		final JLabel topLine = new JLabel();					// Font for date
 		topLine.setFont(date);
-		topLine.setPreferredSize(new Dimension(370,25));
+		topLine.setPreferredSize(new Dimension(430,25));
 		display.add(topLine, BorderLayout.PAGE_START);
-		
-		Font day = new Font("DS-Digital", Font.ITALIC, 24);
-		final JLabel topR = new JLabel("DAY");
-		topR.setFont(day);
-		displayR.add(topR);
 		
 		// Add ActionListeners to buttons
 		memory.addActionListener(new ActionListener() {
@@ -150,6 +164,7 @@ public class PrestoApp extends JFrame {
 						break;
 					}
 				}
+				//
 			}
 		});
 
@@ -168,7 +183,11 @@ public class PrestoApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// DO SOMETHING
+				mode = "Clock";
+				System.out.println(clk.getDate());
+				
+				//Display date
+				topLine.setText(clk.getDate());
 			}
 		});
 
@@ -218,19 +237,21 @@ public class PrestoApp extends JFrame {
 		});
 
 		// Display refresh timer
-		Timer refresh = new Timer(1, new ActionListener() {
+		Timer refresh = new Timer(1,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(blink%12!=0){
-				String dispText = "";
-				if (mode == "StopWatch") {
-					disp.setText(Convert.getFormatted(TimerMemory.getStop()));
-				}
-				if (mode == "Timer") {
-					dispText = Convert.getFormatted(TimerMemory
-							.getTimer(timerMode));
-					disp.setText(dispText);
-				}
+					String dispText = "";
+					if(mode == "StopWatch") {
+						disp.setText(Convert.getFormatted(TimerMemory.getStop()));
+					}
+					if(mode == "Timer") {
+						dispText = Convert.getFormatted(TimerMemory.getTimer(timerMode));
+						disp.setText(dispText);
+					}
+					if(mode == "Clock") {
+						disp.setText(clk.getTime());
+					}
 				}
 			}
 		});
@@ -239,25 +260,24 @@ public class PrestoApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				blink++;
+				@SuppressWarnings("unused") // added to suppress warning for dispText below -RWR
 				char[] dispText;
 				String dispy = disp.getText();
 				dispText = disp.getText().toCharArray();
 				if(blink%2==0){
-						switch (setPlace) {
-						case 1:
-							disp.setText("   " +dispy.substring(2, dispy.length()));
-							break;
+					switch (setPlace) {
+					case 1:
+						disp.setText("   " +dispy.substring(2, dispy.length()));
+						break;
 					case 2:
 						disp.setText(dispy.substring(0, 3)+"   "+dispy.substring(5, dispy.length()));
 						break;
 					case 3:
 						disp.setText(dispy.substring(0, 5)+"   ");
 						break;
-				}	
+					}	
 				}
-				
 			}
-			
 		});
 		refresh.start();
 		refreshSwitch.start();

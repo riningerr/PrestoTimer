@@ -86,9 +86,24 @@ public class Convert {
 		return formattedTime;
 	}
 	
-	// Return formatted HH:MM
-	public static String getFormHourMin(int timeSec) {
-		String formHourMin = getHours(timeSec) + ":" + getMinutes(timeSec);
-		return formHourMin;
+	// Return number of hours INTEGER FORMAT
+	public static int getHoursInt(int timeSec) {
+		int hours = (int) (timeSec / 3600);
+		
+		return hours;
+	}
+	
+	// Return number of minutes INTEGER FORMAT
+	public static int getMinutesInt(int timeSec) {
+		int minutes = (int) ((timeSec % 3600) / 60);
+	
+		return minutes;
+	}
+	
+	// Return number of seconds INTEGER FORMAT
+	public static int getSecondsInt(int timeSec) {
+		int seconds = (int)((timeSec % 3600) % 60);
+	
+		return seconds;
 	}
 }
