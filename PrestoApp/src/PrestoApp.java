@@ -11,7 +11,7 @@ import javax.swing.Timer;
  * SET shouldn't work on STOPWATCH
  * Fix SET blinking inconsistency
  * Get CLOCK to update every second
- * 
+ * Implement military time for CLOCK
  * 
  */
 
@@ -184,8 +184,6 @@ public class PrestoApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = "Clock";
-				System.out.println(clk.getDate());
-				
 				//Display date
 				topLine.setText(clk.getDate());
 			}
@@ -250,6 +248,7 @@ public class PrestoApp extends JFrame {
 						disp.setText(dispText);
 					}
 					if(mode == "Clock") {
+						clk.updateClock();
 						disp.setText(clk.getTime());
 					}
 				}
