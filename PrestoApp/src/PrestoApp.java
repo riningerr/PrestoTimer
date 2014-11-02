@@ -10,11 +10,17 @@ import javax.swing.Timer;
  * START/STOP & CLEAR shouldn't work if SET is active
  * SET shouldn't work on STOPWATCH
  * Fix SET blinking inconsistency
- * Get CLOCK to update every second
+ * Get CLOCK to update every second - DONE RWR
  * Implement military time for CLOCK
+ * Make CLOCK settable
+ * Get MEMORY to change timers, currently TIMER does this.
+ * Get CLEAR to clear current timer
+ * 
+ * IF WE HAVE TIME
+ * 
+ * Make seconds smaller under "day of the week"
  * 
  */
-
 
 public class PrestoApp extends JFrame {
 
@@ -33,22 +39,13 @@ public class PrestoApp extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		
-		//////////////////////////////////////		DANGER TEST CODE
-		
-		
-		
-		
-		
-		
-		//////////////////////////////////////
-		
 	}
 
 	public static void main(String[] args) {
 
 		@SuppressWarnings("unused")
 		final TimerMemory timerC = new TimerMemory();
-		final Clock clk = new Clock();
+		final Clock clk = new Clock();								// Instance of Clock class
 
 		// Create new frame
 		PrestoApp window = new PrestoApp();
@@ -87,24 +84,35 @@ public class PrestoApp extends JFrame {
 		
 		display.add(clear, BorderLayout.PAGE_END);
 		
-		// Display Setup
-		Font hourMin = new Font("DS-Digital", Font.ITALIC, 100);	// Font for hh:mm:ss display
-		final JLabel disp = new JLabel();
-		disp.setFont(hourMin);
+		// Display Setup (Ricky Rininger)
+		Font dispFont = new Font("DS-Digital", Font.ITALIC, 100);	// Font for hh:mm:ss display
+		final JLabel disp = new JLabel();							// Main time display
+		disp.setFont(dispFont);
 		display.add(disp);
 		
-		Font date = new Font("DS-Digital", Font.ITALIC, 32);
-		final JLabel topLine = new JLabel();					// Font for date
-		topLine.setFont(date);
-		topLine.setPreferredSize(new Dimension(430,25));
+		Font dateFont = new Font("DS-Digital", Font.ITALIC, 32);	// Font for date
+		final JLabel topLine = new JLabel();						// Date/Day display
+		topLine.setFont(dateFont);
+		topLine.setPreferredSize(new Dimension(430,25));			// Leaves space even when nothing is displayed
 		display.add(topLine, BorderLayout.PAGE_START);
+		
+		Font sideFont = new Font("DS-Digital", Font.ITALIC, 22);	// Font for side display
+		final JLabel side = new JLabel("TIMER");					// side display for timer mode, etc
+		side.setFont(sideFont);
+		side.setPreferredSize(new Dimension(75,150));
+		display.add(side, BorderLayout.LINE_END);
 		
 		// Add ActionListeners to buttons
 		memory.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// DO SOMETHING
+				if (mode == "Timer") {
+					timerMode++;
+					if (timerMode >= 4) {
+						timerMode = 1;
+					}
+				}
 			}
 		});
 
@@ -193,12 +201,7 @@ public class PrestoApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (mode == "Timer") {
-					timerMode++;
-					if (timerMode >= 4) {
-						timerMode = 1;
-					}
-				}
+			
 				mode = "Timer";
 				setPlace=0;
 			}
@@ -259,7 +262,7 @@ public class PrestoApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				blink++;
-				@SuppressWarnings("unused") // added to suppress warning for dispText below -RWR
+				@SuppressWarnings("unused") 						// added to suppress warning for dispText below -RWR
 				char[] dispText;
 				String dispy = disp.getText();
 				dispText = disp.getText().toCharArray();
