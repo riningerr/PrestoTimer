@@ -32,7 +32,7 @@ public class TimerAction implements ActionListener {
 				}
 				//if memory is 0
 				if(TimerMemory.memory[i]==0&&!TimerMemory.memoryUp[i]){
-					System.out.println("TIMER "+ (i+1) + " WENT OFF HOLY MOLY SHIT");
+					//System.out.println("TIMER "+ (i+1) + " WENT OFF HOLY MOLY SHIT");
 					//memory is up since we reached 0
 					TimerMemory.memoryUp[i]=true;
 					//restart the beeper to 0 (go for another 60 seconds)

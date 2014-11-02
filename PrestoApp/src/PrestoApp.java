@@ -1,8 +1,13 @@
-import javax.swing.*;
+/*
+ * Main application and action listeners written by Jimmy Phan and Steve Gansop
+ * Display setup written by Richard Rininger
+ * "Blink-while-set" written by Maged Hamdy
+ * 
+ */
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.Timer;
 
 /* TO DO LIST
@@ -10,8 +15,6 @@ import javax.swing.Timer;
  * START/STOP & CLEAR shouldn't work if SET is active
  * SET shouldn't work on STOPWATCH
  * Fix SET blinking inconsistency
- * Get CLOCK to update every second - DONE RWR
- * Implement military time for CLOCK
  * Make CLOCK settable
  * Get MEMORY to change timers, currently TIMER does this.
  * Get CLEAR to clear current timer
@@ -34,7 +37,7 @@ public class PrestoApp extends JFrame {
 	public PrestoApp() {
 
 		setTitle("Presto Timer");
-		setSize(430, 250);
+		setSize(450, 250);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		setResizable(false);
@@ -97,7 +100,7 @@ public class PrestoApp extends JFrame {
 		display.add(topLine, BorderLayout.PAGE_START);
 		
 		Font sideFont = new Font("DS-Digital", Font.ITALIC, 22);	// Font for side display
-		final JLabel side = new JLabel("TIMER");					// side display for timer mode, etc
+		final JLabel side = new JLabel();							// side display for timer mode, etc
 		side.setFont(sideFont);
 		side.setPreferredSize(new Dimension(75,150));
 		display.add(side, BorderLayout.LINE_END);
@@ -197,8 +200,6 @@ public class PrestoApp extends JFrame {
 				}
 				// Set mode
 				mode = "Clock";
-				// Display date
-				topLine.setText(clk.getDate());
 			}
 		});
 
@@ -206,7 +207,6 @@ public class PrestoApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
 				mode = "Timer";
 				setPlace=0;
 			}
@@ -235,17 +235,35 @@ public class PrestoApp extends JFrame {
 		});
 
 		clear.addActionListener(new ActionListener() {
-			// STOPWATCH SPECIFIC
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TimerMemory.clearStop();
+				TimerMemory.clearStop();							// Clear Stopwatch
 			}
 		});
 
+		
+		
 		// Display refresh timer
 		Timer refresh = new Timer(1,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Top Display
+				if(mode == "Clock") {
+					topLine.setText(clk.getDate());
+				}
+				else {
+					topLine.setText("");
+				}
+				
+				// Side Display
+				if(mode == "Timer") {
+					side.setText("TIMER");
+				}
+				else {
+					side.setText("");
+				}
+
+				// Main display
 				if(blink%12!=0){
 					String dispText = "";
 					if(mode == "StopWatch") {
