@@ -191,8 +191,13 @@ public class PrestoApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Toggle military mode -RWR
+				if(mode == "Clock") {
+					clk.military();
+				}
+				// Set mode
 				mode = "Clock";
-				//Display date
+				// Display date
 				topLine.setText(clk.getDate());
 			}
 		});
