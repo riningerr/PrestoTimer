@@ -4,22 +4,19 @@
  * "Blink-while-set" written by Maged Hamdy
  * 
  */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 
 /* TO DO LIST
- * 
- * START/STOP & CLEAR shouldn't work if SET is active
- * SET shouldn't work on STOPWATCH
+ * ---------------------------------------------------------------
  * Fix SET blinking inconsistency
- * Make CLOCK settable
- * Get MEMORY to change timers, currently TIMER does this.
- * Get CLEAR to clear current timer
- * 
- * IF WE HAVE TIME
+ * Allow CLOCK to be set
+ * Get CLEAR to clear current TIMER
+ * START/STOP should stop timer from counting up after it goes off
+ * ---------------------------------------------------------------
+ * IF WE HAVE TIME (which we won't)
  * 
  * Make seconds smaller under "day of the week"
  * 
@@ -28,7 +25,7 @@ import javax.swing.Timer;
 public class PrestoApp extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static String mode = "StopWatch";
+	public static String mode = "Clock";
 	public static int timerMode = 1;
 	public static int setPlace = 0;
 	static int blink = 0;
@@ -183,9 +180,11 @@ public class PrestoApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setPlace++;
-				if (setPlace > 3) {
-					setPlace = 0;
+				if(mode != "StopWatch") {
+					setPlace++;
+					if (setPlace > 3) {
+						setPlace = 0;
+					}
 				}
 			}
 		});
@@ -217,19 +216,19 @@ public class PrestoApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mode = "StopWatch";
-				TimerMemory.clearStop();
 			}
 		});
 
 		startstop.addActionListener(new ActionListener() {
-			// STOPWATCH SPECIFIC
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (mode == "StopWatch") {
-					TimerMemory.stopSwitch();
-				}
-				if (mode == "Timer") {
-					TimerMemory.switchTimer(timerMode);
+				if(setPlace == 0) {
+					if (mode == "StopWatch") {
+						TimerMemory.stopSwitch();
+					}
+					if (mode == "Timer") {
+						TimerMemory.switchTimer(timerMode);
+					}
 				}
 			}
 		});
@@ -237,12 +236,17 @@ public class PrestoApp extends JFrame {
 		clear.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TimerMemory.clearStop();							// Clear Stopwatch
+				if(mode == "StopWatch") {
+					TimerMemory.clearStop();							// Clear Stopwatch
+				}
+				else if(mode == "Timer") {
+					if(setPlace == 0) {
+						//CLEAR TIMER
+					}
+				}
 			}
 		});
 
-		
-		
 		// Display refresh timer
 		Timer refresh = new Timer(1,new ActionListener() {
 			@Override
@@ -258,6 +262,7 @@ public class PrestoApp extends JFrame {
 				// Side Display
 				if(mode == "Timer") {
 					side.setText("TIMER");
+					topLine.setText("                                                 " + timerMode);
 				}
 				else {
 					side.setText("");
@@ -285,7 +290,7 @@ public class PrestoApp extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				blink++;
-				@SuppressWarnings("unused") 						// added to suppress warning for dispText below -RWR
+				@SuppressWarnings("unused")
 				char[] dispText;
 				String dispy = disp.getText();
 				dispText = disp.getText().toCharArray();
