@@ -12,8 +12,7 @@ import javax.swing.Timer;
 /* TO DO LIST
  * ---------------------------------------------------------------
  * Fix SET blinking inconsistency
- * Allow CLOCK to be set
- * Get CLEAR to clear current TIMER
+ * Allow CLOCK to be set (seems like a major pain in the ass)
  * START/STOP should stop timer from counting up after it goes off
  * ---------------------------------------------------------------
  * IF WE HAVE TIME (which we won't)
@@ -109,7 +108,7 @@ public class PrestoApp extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (mode == "Timer") {
 					timerMode++;
-					if (timerMode >= 4) {
+					if (timerMode >= 5) {
 						timerMode = 1;
 					}
 				}
@@ -239,9 +238,9 @@ public class PrestoApp extends JFrame {
 				if(mode == "StopWatch") {
 					TimerMemory.clearStop();							// Clear Stopwatch
 				}
-				else if(mode == "Timer") {
+				else if(mode == "Timer") {								// Clear Timer
 					if(setPlace == 0) {
-						//CLEAR TIMER
+						TimerMemory.clearTimer(timerMode);
 					}
 				}
 			}

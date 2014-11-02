@@ -5,8 +5,6 @@ import javax.swing.Timer;
 import sun.audio.*;
 import java.io.*;
 
-//Applet is only for testing purposes
-
 public class TimerMemory {
 	public static int time = 0;
 	public static int[] memory = {0,0,0,0};
@@ -58,6 +56,9 @@ public class TimerMemory {
 	public static void stopTimer(int timer) {
 		//stops the timer
 		memoryOn[timer - 1] = false;
+		if(memoryUp[timer - 1] == true) {
+			memory[timer -1] = 0;
+		}
 	}
 	
 	public static void switchTimer(int timer){
@@ -73,6 +74,7 @@ public class TimerMemory {
 	public static void clearTimer(int timer) {
 		//clears the timer
 		memory[timer - 1] = 0;
+		memoryOn[timer - 1] = false; // added by Ricky to stop timer when cleared
 	}
 
 	public static synchronized void playSound() throws IOException {
