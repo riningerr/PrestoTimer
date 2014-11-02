@@ -13,6 +13,8 @@ import java.util.*;
 
 public class Clock {
 	
+	public Clock(){}
+	
 	Calendar cal = Calendar.getInstance();
 	Date date = new Date();
 	SimpleDateFormat mmddyy = new SimpleDateFormat(" MM      dd      yyyy                   E");

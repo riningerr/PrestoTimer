@@ -251,7 +251,7 @@ public class PrestoApp extends JFrame {
 		Timer refresh = new Timer(1,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Top Display
+				// Top Display	-RWR
 				if(mode == "Clock") {
 					topLine.setText(clk.getDate());
 				}
@@ -259,7 +259,7 @@ public class PrestoApp extends JFrame {
 					topLine.setText("");
 				}
 				
-				// Side Display
+				// Side Display	-RWR
 				if(mode == "Timer") {
 					side.setText("TIMER");
 					topLine.setText("                                                 " + timerMode);
@@ -268,7 +268,7 @@ public class PrestoApp extends JFrame {
 					side.setText("");
 				}
 
-				// Main display
+				// Main display	-Maged
 				if(blink%12!=0){
 					String dispText = "";
 					if(mode == "StopWatch") {
@@ -285,6 +285,7 @@ public class PrestoApp extends JFrame {
 				}
 			}
 		});
+		// Blink-while-set 		-Maged
 		Timer refreshSwitch = new Timer(100, new ActionListener() {
 
 			@Override
