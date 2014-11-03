@@ -24,21 +24,53 @@ public class Clock {
 	private int clkSec;
 	private boolean milit = false;
 	
+	private int hourAdj;
+	private int minAdj;
+	private int secAdj;
+	
+	// Adjust Hour Up
+	public void hourUp() {
+		hourAdj++;
+	}
+	// Adjust Hour Down
+	public void hourDown() {
+		hourAdj--;
+	}
+	// Adjust Minute Up
+	public void minUp() {
+		minAdj++;
+	}
+	// Adjust Minute Down
+	public void minDown() {
+		minAdj--;
+	}
+	// Adjust Second Up
+	public void secUp() {
+		secAdj++;
+	}
+	// Adjust Second Down
+	public void secDown() {
+		secAdj--;
+	}
+	// Toggle Military Time
 	public void military() {
 		milit = !milit;
-	}
+	}	
 	
 	public void updateClock() {
 		cal = Calendar.getInstance();
 		
 		if(milit == false) {
-			clkHour = cal.get(Calendar.HOUR);
-		}
+			clkHour = cal.get(Calendar.HOUR) + hourAdj;
+			//////////////////////////////////////////////////////////
+		
+			//////////////////////////////////////////////////////////
+		}		
 		else {
-			clkHour = cal.get(Calendar.HOUR_OF_DAY);
+			clkHour = cal.get(Calendar.HOUR_OF_DAY) + hourAdj;
 		}
-		clkMin = cal.get(Calendar.MINUTE);
-		clkSec = cal.get(Calendar.SECOND);
+		clkMin = cal.get(Calendar.MINUTE) + minAdj;
+		clkSec = cal.get(Calendar.SECOND) + secAdj;
 	}
 	public String getTime() {	
 		
@@ -76,7 +108,6 @@ public class Clock {
 		return clockText;
 	}
 	public String getDate() {
-		
 		return mmddyy.format(date);
 	}
 	

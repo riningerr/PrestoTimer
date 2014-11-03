@@ -119,7 +119,7 @@ public class PrestoApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (mode == "Timer") {
+				if(mode == "Timer") {
 					switch (setPlace) {
 					case 1:
 						if (TimerMemory.getTimer(timerMode)/3600 <= 0) {
@@ -140,6 +140,17 @@ public class PrestoApp extends JFrame {
 							TimerMemory.addTimer(timerMode, 60);
 						}
 						break;
+					}
+				}
+				if(mode == "Clock") {
+					if(setPlace == 1) {
+						clk.hourDown();
+					}
+					else if(setPlace == 2) {
+						clk.minDown();
+					}
+					else if(setPlace == 3) {
+						clk.secDown();
 					}
 				}
 			}
@@ -171,7 +182,17 @@ public class PrestoApp extends JFrame {
 						break;
 					}
 				}
-				//
+				if (mode == "Clock") {
+					if(setPlace == 1){
+						clk.hourUp();
+					}
+					else if(setPlace == 2) {
+						clk.minUp();
+					}
+					else if(setPlace == 3) {
+						clk.secUp();
+					}
+				}
 			}
 		});
 
@@ -301,7 +322,7 @@ public class PrestoApp extends JFrame {
 				if(blink%2==0){
 					switch (setPlace) {
 					case 1:
-						disp.setText("   " +dispy.substring(2, dispy.length()));
+						disp.setText("     " +dispy.substring(2, dispy.length()));
 						break;
 					case 2:
 						disp.setText(dispy.substring(0, 3)+"   "+dispy.substring(5, dispy.length()));
