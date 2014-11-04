@@ -89,7 +89,6 @@ public class Convert {
 	// Return number of hours INTEGER FORMAT
 	public static int getHoursInt(int timeSec) {
 		int hours = (int) (timeSec / 3600);
-		
 		return hours;
 	}
 	

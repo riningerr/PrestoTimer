@@ -2,6 +2,7 @@
  * Main application and action listeners written by Jimmy Phan and Steve Gansop
  * Display setup written by Richard Rininger
  * "Blink-while-set" written by Maged Hamdy
+ * Up/Down written by Maged Hamdy
  * 
  */
 import javax.swing.*;
@@ -11,13 +12,9 @@ import javax.swing.Timer;
 
 /* TO DO LIST
  * ---------------------------------------------------------------
- * Fix SET blinking inconsistency
- * Allow CLOCK to be set (seems like a major pain in the ass)
- * START/STOP should stop timer from counting up after it goes off
+ * ALL DONE :)
  * ---------------------------------------------------------------
- * IF WE HAVE TIME (which we won't)
  * 
- * Make seconds smaller under "day of the week"
  * 
  */
 
@@ -116,10 +113,11 @@ public class PrestoApp extends JFrame {
 		});
 
 		down.addActionListener(new ActionListener() {
-
+			//adds values dwon to the max then resets if it goes under, i.e. 0 + down = 59
+			//Maged
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(mode == "Timer") {
+				if (mode == "Timer") {
 					switch (setPlace) {
 					case 1:
 						if (TimerMemory.getTimer(timerMode)/3600 <= 0) {
@@ -142,22 +140,15 @@ public class PrestoApp extends JFrame {
 						break;
 					}
 				}
-				if(mode == "Clock") {
-					if(setPlace == 1) {
-						clk.hourDown();
-					}
-					else if(setPlace == 2) {
-						clk.minDown();
-					}
-					else if(setPlace == 3) {
-						clk.secDown();
-					}
+				if(mode=="Clock"){
+					clk.removeDay();
 				}
 			}
 		});
 
 		up.addActionListener(new ActionListener() {
-
+			//adds values up to the max then resets if it goes over, i.e. 59 + up = 0;
+			//Maged
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (mode == "Timer") {
@@ -182,17 +173,30 @@ public class PrestoApp extends JFrame {
 						break;
 					}
 				}
-				if (mode == "Clock") {
-					if(setPlace == 1){
-						clk.hourUp();
-					}
-					else if(setPlace == 2) {
-						clk.minUp();
-					}
-					else if(setPlace == 3) {
-						clk.secUp();
-					}
+				if(mode=="Clock"){
+					switch(setPlace){
+					case 1:
+						clk.addYear();
+						System.out.println("YEAR");
+						break;
+					case 2:
+						clk.addMonth();
+						break;
+					case 3:
+						clk.addDay();
+						break;
+					case 4:
+						clk.addHour();
+						break;
+					case 5:
+						clk.addMinute();
+						break;
+					case 6:
+						clk.addSecond();
+						break;
 				}
+				}
+				//
 			}
 		});
 
@@ -202,9 +206,16 @@ public class PrestoApp extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(mode != "StopWatch") {
 					setPlace++;
+					if(mode!="Clock"){
 					if (setPlace > 3) {
 						setPlace = 0;
 					}
+					}if(mode=="Clock"){
+						//Clock Mode has a different max since it has Day/Month/Year
+						if (setPlace > 6) {
+							setPlace = 0;
+						}
+						}
 				}
 			}
 		});
@@ -272,7 +283,7 @@ public class PrestoApp extends JFrame {
 		});
 
 		// Display refresh timer
-		Timer refresh = new Timer(1,new ActionListener() {
+		Timer refresh = new Timer(100,new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Top Display	-RWR
@@ -319,20 +330,49 @@ public class PrestoApp extends JFrame {
 				char[] dispText;
 				String dispy = disp.getText();
 				dispText = disp.getText().toCharArray();
-				if(blink%2==0){
+				if(mode!="Clock"){
+				if(blink%10==0){
 					switch (setPlace) {
 					case 1:
-						disp.setText("     " +dispy.substring(2, dispy.length()));
+						disp.setText("    " +dispy.substring(2, dispy.length()));
 						break;
 					case 2:
 						disp.setText(dispy.substring(0, 3)+"   "+dispy.substring(5, dispy.length()));
 						break;
 					case 3:
-						disp.setText(dispy.substring(0, 5)+"   ");
+						disp.setText(dispy.substring(0, 5)+"    ");
 						break;
-					}	
+					}
 				}
-			}
+				}
+				//Clock mode has a different set of rules because of Day/Month/Year too
+				if(mode=="Clock"){
+				if(blink%10==0){
+					String date = clk.getDate();
+					switch (setPlace) {
+					case 1:
+						date = "   " +date.substring(2);
+						break;
+					case 2:
+						date=date.substring(0, 3)+"  "+date.substring(5);
+						break;
+					case 3:
+						date=date.substring(0,6)+"      "+date.substring(10);
+						break;
+					case 4:
+						disp.setText("    " +dispy.substring(2, dispy.length()));
+						break;
+					case 5:
+						disp.setText(dispy.substring(0, 3)+"   "+dispy.substring(5, dispy.length()));
+						break;
+					case 6:
+						disp.setText(dispy.substring(0, 5)+"    ");
+						break;
+					}
+					topLine.setText(date);
+					}
+				}
+				}
 		});
 		refresh.start();
 		refreshSwitch.start();
