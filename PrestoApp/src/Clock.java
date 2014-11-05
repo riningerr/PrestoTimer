@@ -7,17 +7,14 @@
  * 
  **********************************************************************************/
 
-import java.text.SimpleDateFormat;
 import java.util.*;
-
 
 public class Clock {
 	
 	public Clock(){}
 	
 	static Calendar cal = Calendar.getInstance();
-	static Date date = new Date();
-	SimpleDateFormat mmddyy = new SimpleDateFormat(" MM      dd      yyyy                   E");
+	
 	
 	private int clkHour;
 	private int clkMin;
