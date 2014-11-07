@@ -1,4 +1,8 @@
-//Written by Maged Hamdy [timer] + Brian Figueroa [sound]
+/***********************************************************************************
+ * 
+ * Written by Maged Hamdy [timer] + Brian Figueroa [sound] (unless otherwise noted) 
+ * 
+ **********************************************************************************/
 
 import java.io.IOException;
 import javax.swing.Timer;

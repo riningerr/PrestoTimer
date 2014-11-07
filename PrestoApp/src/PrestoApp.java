@@ -1,10 +1,11 @@
-/*
+/***********************************************************************************
+ * 
  * Main application and action listeners written by Jimmy Phan and Steve Gansop
  * Display setup written by Richard Rininger
  * "Blink-while-set" written by Maged Hamdy
  * Up/Down written by Maged Hamdy
  * 
- */
+ **********************************************************************************/
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -175,14 +176,14 @@ public class PrestoApp extends JFrame {
 				}
 				if(mode=="Clock"){
 					switch(setPlace){
-					case 1:
+					case 3:
 						clk.addYear();
 						System.out.println("YEAR");
 						break;
 					case 2:
 						clk.addMonth();
 						break;
-					case 3:
+					case 1:
 						clk.addDay();
 						break;
 					case 4:

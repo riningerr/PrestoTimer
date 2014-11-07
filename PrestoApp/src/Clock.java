@@ -1,9 +1,9 @@
 /***********************************************************************************
  * 
- * Clock written by Michael Petro and Richard Rininger
+ * Clock written by Michael Petro and Richard Rininger (unless otherwise noted)
  * 
  * (Mostly written by Michael Petro, military and date
- * functions by Richard Rininger)
+ * functions by Richard Rininger and Maged Hamdy)
  * 
  **********************************************************************************/
 
@@ -14,7 +14,6 @@ public class Clock {
 	public Clock(){}
 	
 	static Calendar cal = Calendar.getInstance();
-	
 	
 	private int clkHour;
 	private int clkMin;

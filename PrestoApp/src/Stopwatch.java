@@ -80,7 +80,7 @@ public class PrestoApp extends JFrame {
 	}
 }
  * 
- * @author riningerr
+ * @authors riningerr and Jimmy Phan and Steve Gansop
  * 
  * CHANGELOG
  * ---------
@@ -133,9 +133,6 @@ public class Stopwatch {
 			if(pause == false) {
 				timeNow = System.currentTimeMillis();
 			}
-//			elapsedSec = (timeNow - timeStart)/1000; 
-//			String elapsedTime = Convert.getFormatted((int) elapsedSec);
-//			return elapsedTime;
 		}
 			elapsedSec = (timeNow - timeStart)/1000; 
 			String elapsedTime = Convert.getFormatted((int) elapsedSec);

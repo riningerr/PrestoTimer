@@ -1,6 +1,11 @@
-//Executes every second
+/***********************************************************************************
+ *
+ * Written by Maged Hamdy (unless otherwise noted)
+ * 
+ * Executes every second
+ * 
+ **********************************************************************************/
 
-//Written by Maged Hamdy
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
